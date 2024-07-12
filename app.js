@@ -41,18 +41,9 @@ app.post('/api/attendance', async (req, res) => {
 app.get('/api/attendance', async (req, res) => {
   try {
     const [rows, fields] = await pool.query('SELECT * FROM attendance');
-
-    // Transform data to a custom JSON format if needed
-    const attendanceRecords = rows.map(row => ({
-      id: row.id,
-      name: row.name,
-      timestamp: row.timestamp.toLocaleString(), // Convert timestamp to a readable format
-      action: row.action,
-    }));
-
-    res.json({ attendanceRecords });
+    res.json(rows);
   } catch (error) {
-    console.error('Error fetching attendance records:', error);
+    console.error('Error fetching last 10 attendance records:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
